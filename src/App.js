@@ -1,26 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import Navbar from './Navbar'
+import Welcome from './Welcome'
+import SignUpForm from './SignUpForm'
+import SearchRestaurants from './SearchRestaurants'
+import LeaveReview from './LeaveReview'
+import Reviews from './Reviews'
+import Follow from './Follow'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div>
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Welcome} />
+            <Route exact path="/signup" component={SignUpForm} />
+            <Route exact path="/search" component={SearchRestaurants} />
+            <Route exact path="/review/:id" component={LeaveReview}/>} />
+            <Route exact path="/reviews" component={Reviews}/>} />
+            <Route exact path="/follow" component={Follow}/>} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
