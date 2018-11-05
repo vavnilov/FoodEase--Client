@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import User from './User';
+
 class Follow extends Component {
 
   state = {
-    name: ""
+    name: "",
+    filteredUsers: []
   }
 
   handleChange = event => {
@@ -15,30 +18,26 @@ class Follow extends Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    fetch(`https://developers.zomato.com/api/v2.1/search?entity_id=280&entity_type=city&q=${this.state.name}`, {
-      headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            "user-key": '59003495a60ce448262ef01ce0c67c73'
-    }})
+    fetch('http://localhost:3000/users')
     .then(res => res.json())
-    .then(res => this.setState({restaurants: res.restaurants}))
+    .then(res => this.listUsers(res))
+  }
+
+  listUsers = users => {
+    const filteredUsers = users.filter(user => user.name.toLowerCase().includes(this.state.name.toLowerCase()) || user.username.toLowerCase().includes(this.state.name.toLowerCase()))
+    this.setState({filteredUsers})
   }
 
 
   render() {
+    const users = this.state.filteredUsers.map(user => <User key={user.id} {...user}/>)
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="Search Restaurant" onChange={this.handleChange} /><br />
+          <input type="text" placeholder="Search User" onChange={this.handleChange} /><br />
           <input type="submit" value="Search"/>
         </form>
-        {this.state.restaurants.length > 0 && this.state.restaurants.map( restaurant => (
-          <div key={restaurant.restaurant.id}>
-            <NavLink to={{pathname:`/review/${restaurant.restaurant.id}`, state: restaurant.restaurant}} >{restaurant.restaurant.name}</NavLink>
-            <p>{restaurant.restaurant.location.address}</p>
-            <p>{restaurant.restaurant.location.city}, NY {restaurant.restaurant.location.zipcode}</p>
-          </div>
-        ))}
+        {users}
       </div>
     );
   }
