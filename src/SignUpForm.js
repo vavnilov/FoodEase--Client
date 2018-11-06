@@ -21,7 +21,7 @@ class SignUpForm extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(this.state)
-    })
+    }).then(this.props.history.push('/'))
   }
 
   render() {
