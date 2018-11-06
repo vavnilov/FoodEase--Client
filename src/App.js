@@ -14,10 +14,6 @@ class App extends Component {
 
   state = {
     auth: { currentUser: {} },
-    newUser: {
-      username: "",
-      password: ""
-    }
   };
 
   componentDidMount() {
@@ -27,7 +23,7 @@ class App extends Component {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: token
+          Authorization: `Token ${token}`
         }
       })
         .then(resp => resp.json())
