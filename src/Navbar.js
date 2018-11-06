@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Navbar = () => (
+const Navbar = (props) => (
   <header>
     <h1>FoodEase</h1>
       <NavLink exact to="/">Homepage</NavLink>&nbsp;&nbsp;&nbsp;
@@ -9,7 +9,7 @@ const Navbar = () => (
       <NavLink to="/search">Leave Review</NavLink>&nbsp;&nbsp;&nbsp;
       <NavLink to="/reviews">See Reviews</NavLink>&nbsp;&nbsp;&nbsp;
       <NavLink to="/follow">Find FoodEasers</NavLink>&nbsp;&nbsp;&nbsp;
-      <NavLink to="/login">Login</NavLink>&nbsp;&nbsp;&nbsp;
+      {localStorage.jwt ? <NavLink to="/" onClick={props.handleLogout}>Logout</NavLink> : <NavLink to="/login">Login</NavLink>}
   </header>
 );
 

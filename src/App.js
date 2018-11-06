@@ -41,11 +41,16 @@ class App extends Component {
     this.setState({ auth: currentUser });
   };
 
+  handleLogout = () => {
+    localStorage.removeItem("jwt");
+    this.setState({ auth: { currentUser: {} } })
+  }
+
   render() {
     return (
       <Router>
         <div>
-          <Navbar />
+          <Navbar handleLogout={this.handleLogout}/>
           <Switch>
             <Route exact path="/" component={Welcome} />
             <Route exact path="/login" render={(props) =><Login handleLogin={this.handleLogin}/>} />
