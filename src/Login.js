@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { loginUser } from './redux/actions'
+
 class Login extends Component{
   state={
     error: false,
@@ -58,4 +61,8 @@ class Login extends Component{
   }
 }
 
-export default withRouter(Login)
+const mapDispatchToProps = (dispatch) => {
+  return {loginUser: user => dispatch(loginUser(user))}
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(Login))
