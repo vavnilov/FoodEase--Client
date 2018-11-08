@@ -1,6 +1,6 @@
 export const loginUser = (user = null) => ({
   type: 'LOG_USER_IN',
-  user
+  payload: user
 });
 
 export const logoutUser = () => ({

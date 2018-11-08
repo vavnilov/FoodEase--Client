@@ -10,15 +10,16 @@ import LeaveReview from './LeaveReview'
 import Reviews from './Reviews'
 import Follow from './Follow'
 
-class App extends Component {
+import { connect } from 'react-redux'
+import { loginUser } from './redux/actions'
+import { logoutUser } from './redux/actions'
 
-  state = {
-    auth: { currentUser: {} },
-  };
+class App extends Component {
 
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     if (token) {
+      this.props.loginUser(token)
       fetch("http://localhost:3000/current_user", {
         headers: {
           "Content-Type": "application/json",
@@ -27,23 +28,17 @@ class App extends Component {
         }
       })
         .then(resp => resp.json())
-        .then(user => {
-          const currentUser = { currentUser: user };
-          this.setState({ auth: currentUser });
-        });
     }
   }
 
-  handleLogin = resp => {
-    const currentUser = { currentUser: resp };
-    console.log(currentUser);
-    localStorage.setItem("jwt", resp.jwt);
-    this.setState({ auth: currentUser });
-  };
+  setUser = user => {
+    console.log(user);
+    this.props.loginUser(user.jwt)
+  }
 
   handleLogout = () => {
     localStorage.removeItem("jwt");
-    this.setState({ auth: { currentUser: {} } })
+    this.props.logoutUser()
   }
 
   render() {
@@ -53,7 +48,7 @@ class App extends Component {
           <Navbar handleLogout={this.handleLogout}/>
           <Switch>
             <Route exact path="/" component={Welcome} />
-            <Route exact path="/login" render={(props) =><Login handleLogin={this.handleLogin}/>} />
+            <Route exact path="/login" render={(props) =><Login setUser={this.setUser}/>} />
             <Route exact path="/signup" component={SignUpForm} />
             <Route exact path="/search" component={SearchRestaurants} />
             <Route exact path="/review/:id" component={LeaveReview}/>} />
@@ -66,4 +61,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    loginUser: user => dispatch(loginUser(user)),
+    logoutUser: dispatch(logoutUser)
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);

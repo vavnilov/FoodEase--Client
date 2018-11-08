@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {withRouter} from 'react-router-dom'
-import { connect } from 'react-redux'
-import { loginUser } from './redux/actions'
+import { withRouter } from 'react-router-dom'
 
 class Login extends Component{
   state={
@@ -28,11 +26,13 @@ class Login extends Component{
         this.setState({error: true})
       }
       else{
-        this.props.handleLogin(resp)
+        localStorage.setItem("jwt", resp.jwt);
+        this.props.setUser(resp)
         this.props.history.push('/')
       }
     })
   }
+
 
   handleChange = (e) => {
     this.setState({[e.target.name]: e.target.value})
@@ -61,8 +61,11 @@ class Login extends Component{
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {loginUser: user => dispatch(loginUser(user))}
-}
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     loginUser: user => dispatch(loginUser(user))
+//   }
+// }
 
-export default withRouter(connect(null, mapDispatchToProps)(Login))
+// export default withRouter(connect(null, mapDispatchToProps)(Login))
+export default withRouter(Login)
