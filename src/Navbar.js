@@ -3,7 +3,7 @@ import { connect} from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 const Navbar = (props) => {
-  console.log(props);
+  console.log(props.followed);
   return (<header>
     <h1>FoodEase</h1>
       <NavLink exact to="/">Homepage</NavLink>&nbsp;&nbsp;&nbsp;
@@ -16,7 +16,7 @@ const Navbar = (props) => {
 };
 
 const mapStateToProps = state => {
-  return { currentUser: state.currentUser}
+  return { currentUser: state.currentUser, followed:state.usersFollowing}
 }
 
 export default connect(mapStateToProps)(Navbar);

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import Review from './Review'
+
+import { connect } from 'react-redux'
+
 class Reviews extends Component {
 
   state = {
@@ -13,7 +16,8 @@ class Reviews extends Component {
   }
 
   render() {
-    const reviews = this.state.reviews.map(review => <Review key={review.id} {...review}/>)
+    const reviews = this.state.reviews.filter(review => this.props.followed.includes(review.user_id)).map(review => <Review key={review.id} {...review}/>)
+    // debugger;
     return (
       <div>Here's all the reviews!
         {reviews}
@@ -23,11 +27,8 @@ class Reviews extends Component {
 
 }
 
-export default Reviews;
+const mapStateToProps = state => {
+  return {followed: state.usersFollowing}
+}
 
-// .then(res => res.map(review => (
-//   <div>
-//     {review.user_id} <br />
-//     {review.restaurant} <br />
-//     {review.body} <br />
-//   </div>)))
+export default connect(mapStateToProps)(Reviews);

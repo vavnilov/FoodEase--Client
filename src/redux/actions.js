@@ -7,6 +7,11 @@ export const logoutUser = () => ({
   type: 'LOG_USER_OUT'
 });
 
+export const setFollowed = (followed = []) => ({
+  type: 'SET_FOLLOWED',
+  payload: followed
+})
+
 export const follow = (user = null) => ({
   type: 'ADD_FOLLOWED',
   user

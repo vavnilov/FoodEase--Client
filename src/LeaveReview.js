@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
 class LeaveReview extends Component {
   state= {
+    current_user: this.props.currentUser,
     body: '',
     restaurant: this.props.match.params.id,
     restaurant_name: this.props.location.state.name
@@ -26,7 +28,10 @@ class LeaveReview extends Component {
       </div>
     );
   }
-
 }
 
-export default LeaveReview;
+const mapStateToProps = state => {
+  return { currentUser: state.currentUser }
+}
+
+export default connect(mapStateToProps)(LeaveReview)

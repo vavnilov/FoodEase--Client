@@ -8,13 +8,16 @@ const initialState = {
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'LOG_USER_IN':
-      localStorage.setItem("jwt", action.payload)
       return {
         ...state, userLoggedIn: true, currentUser: action.payload
       };
     case 'LOG_USER_OUT':
       return {
         ...state, userLoggedIn: false, currentUser: null
+      };
+    case 'SET_FOLLOWED':
+      return {
+        ...state, usersFollowing: action.payload
       };
     case 'ADD_FOLLOWED':
       return {

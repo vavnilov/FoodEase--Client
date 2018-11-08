@@ -13,6 +13,7 @@ import Follow from './Follow'
 import { connect } from 'react-redux'
 import { loginUser } from './redux/actions'
 import { logoutUser } from './redux/actions'
+import { setFollowed } from './redux/actions'
 
 class App extends Component {
 
@@ -28,17 +29,26 @@ class App extends Component {
         }
       })
         .then(resp => resp.json())
+        .then(resp => this.fetchRelationships(resp))
     }
   }
 
   setUser = user => {
-    console.log(user);
     this.props.loginUser(user.jwt)
+    document.location.reload() //doing this so component remounts and fetchRelationships is called
   }
 
   handleLogout = () => {
     localStorage.removeItem("jwt");
     this.props.logoutUser()
+  }
+
+  fetchRelationships = user => {
+    let followed;
+    fetch("http://localhost:3000/relationships")
+    .then(resp => resp.json())
+    .then(resp => followed = resp.filter(rel => rel.follower_id === user.id).map(rel => rel.followed_id))
+    .then(followed => this.props.setFollowed(followed))
   }
 
   render() {
@@ -64,7 +74,8 @@ class App extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     loginUser: user => dispatch(loginUser(user)),
-    logoutUser: dispatch(logoutUser)
+    logoutUser: dispatch(logoutUser),
+    setFollowed: followed => dispatch(setFollowed(followed))
   }
 }
 
