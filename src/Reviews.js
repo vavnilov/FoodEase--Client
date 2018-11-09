@@ -16,7 +16,7 @@ class Reviews extends Component {
   }
 
   render() {
-    const reviews = this.state.reviews.filter(review => this.props.followed.includes(review.user_id)).map(review => <Review key={review.id} {...review}/>)
+    const reviews = this.state.reviews.filter(review => this.props.currentUser.id === review.user_id || this.props.followed.includes(review.user_id)).map(review => <Review key={review.id} {...review}/>)
     // debugger;
     return (
       <div>Here's all the reviews!
@@ -28,7 +28,7 @@ class Reviews extends Component {
 }
 
 const mapStateToProps = state => {
-  return {followed: state.usersFollowing}
+  return { currentUser: state.currentUser, followed: state.usersFollowing}
 }
 
 export default connect(mapStateToProps)(Reviews);

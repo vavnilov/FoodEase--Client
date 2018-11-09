@@ -20,22 +20,23 @@ class App extends Component {
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     if (token) {
-      this.props.loginUser(token)
-      fetch("http://localhost:3000/current_user", {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Token ${token}`
-        }
-      })
-        .then(resp => resp.json())
-        .then(resp => this.fetchRelationships(resp))
+      this.setUser(token)
     }
   }
 
-  setUser = user => {
-    this.props.loginUser(user.jwt)
-    document.location.reload() //doing this so component remounts and fetchRelationships is called
+  setUser = token => {
+    fetch("http://localhost:3000/current_user", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Token ${token}`
+      }
+    })
+      .then(resp => resp.json())
+      .then(resp => {
+        this.props.loginUser(resp)
+        this.fetchRelationships(resp)
+      })
   }
 
   handleLogout = () => {
@@ -54,7 +55,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <div >
           <Navbar handleLogout={this.handleLogout}/>
           <Switch>
             <Route exact path="/" component={Welcome} />

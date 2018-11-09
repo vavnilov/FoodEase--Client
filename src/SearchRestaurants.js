@@ -36,8 +36,7 @@ class SearchRestaurants extends Component {
         {this.state.restaurants.length > 0 && this.state.restaurants.map( restaurant => (
           <div key={restaurant.restaurant.id}>
             <NavLink to={{pathname:`/review/${restaurant.restaurant.id}`, state: restaurant.restaurant}} >{restaurant.restaurant.name}</NavLink>
-            <p>{restaurant.restaurant.location.address}</p>
-            <p>{restaurant.restaurant.location.city}, NY {restaurant.restaurant.location.zipcode}</p>
+            <p>{restaurant.restaurant.location.address}</p><br />
           </div>
         ))}
       </div>

@@ -27,7 +27,7 @@ class Login extends Component{
       }
       else{
         localStorage.setItem("jwt", resp.jwt);
-        this.props.setUser(resp)
+        this.props.setUser(resp.jwt)
         this.props.history.push('/')
       }
     })

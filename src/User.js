@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 const handleFollowClick = id => {
   console.log(id);
@@ -14,14 +15,18 @@ const handleFollowClick = id => {
     })
   })
 }
-const User = ({id, name, username}) => {
+const User = ({id, name, username, followed}) => {
   return (
     <div>
       {name} <br />
       {username} <br />
-    <button onClick={() => handleFollowClick(id)}>Follow</button>
+    {followed.includes(id) ? <button>Unfollow</button> : <button onClick={() => handleFollowClick(id)}>Follow</button>}
     </div>
   )
 }
 
-export default User
+const mapStateToProps = state => {
+  return { followed:state.usersFollowing}
+}
+
+export default connect(mapStateToProps)(User)
