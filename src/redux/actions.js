@@ -14,7 +14,12 @@ export const setFollowed = (followed = []) => ({
 
 export const follow = (user = null) => ({
   type: 'ADD_FOLLOWED',
-  user
+  payload: user
+});
+
+export const unfollow = (user = null) => ({
+  type: 'REMOVE_FOLLOWED',
+  payload: user
 });
 
 export const selectRestaurant = (restaurant = null) => ({

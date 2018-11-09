@@ -22,11 +22,15 @@ const usersReducer = (state = initialState, action) => {
     case 'ADD_FOLLOWED':
       return {
         ...state, usersFollowing:[...state.usersFollowing, action.payload]
-      }
+      };
+    case 'REMOVE_FOLLOWED':
+      return {
+        ...state, usersFollowing:[...state.usersFollowing.filter(user => user !== action.payload)]
+      };
     case 'SELECT_RESTAURANT':
       return {
         ...state, selectedRestaurant: action.payload
-      }
+      };
     default:
       return state;
   }
