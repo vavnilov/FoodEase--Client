@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import { Button, Form } from 'semantic-ui-react'
 
 class Login extends Component{
   state={
@@ -34,11 +35,11 @@ class Login extends Component{
   }
 
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({[e.target.name]: e.target.value})
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.login(this.state.username, this.state.password)
   }
@@ -49,14 +50,20 @@ class Login extends Component{
       return null
     }else{
       return(
-        <form onSubmit={this.handleSubmit}>
-            <label>Username</label>
-            <input placeholder='Username' name="username" onChange={this.handleChange}/>
-            <label>Password</label>
-            <input type="password" placeholder='Password' name="password" onChange={this.handleChange}/>
-          <button type='submit'>Submit</button>
-        </form>
-      )
+        <div style={{'padding-top': '5%', 'padding-left':'30%', 'padding-right':'30%'}}>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Field>
+              <label>Username</label>
+              <input placeholder='Username' name='username' onChange={this.handleChange} />
+            </Form.Field>
+            <Form.Field>
+              <label>Password</label>
+              <input placeholder='Password' name='password' onChange={this.handleChange} />
+            </Form.Field>
+            <Button type='submit'>Submit</Button>
+          </Form>
+        </div>
+    )
     }
   }
 }

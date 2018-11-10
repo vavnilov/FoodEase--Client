@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Form, Input, Button, Icon, Card, Image } from 'semantic-ui-react'
+import _ from 'lodash'
 
 class SearchRestaurants extends Component {
 
@@ -8,37 +10,50 @@ class SearchRestaurants extends Component {
     restaurants: []
   }
 
+  componentDidMount() {
+    this.fetchRestaurants()
+  }
   handleChange = event => {
     this.setState({
+      isLoading: true,
       name: event.target.value
     })
   }
 
-  handleSubmit = event => {
-    event.preventDefault()
+  fetchRestaurants = () => {
     fetch(`https://developers.zomato.com/api/v2.1/search?entity_id=280&entity_type=city&q=${this.state.name}`, {
       headers: {
             "Content-Type": "application/json; charset=utf-8",
             "user-key": '59003495a60ce448262ef01ce0c67c73'
     }})
     .then(res => res.json())
-    .then(res => this.setState({restaurants: res.restaurants}))
+    .then(res => this.setState({restaurants: res.restaurants, name: ''}))
   }
 
 
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="Search Restaurant" onChange={this.handleChange} /><br />
-          <input type="submit" value="Search"/>
-        </form>
+        <Form onSubmit={this.fetchRestaurants} >
+          <Input size="huge" placeholder='Search any restaurant...' onChange={this.handleChange} value={this.state.name}></Input>
+          <Button size="huge" icon >
+            <Icon name='search' />
+          </Button>
+        </Form> <br />
+      <Card.Group itemsPerRow={2}>
         {this.state.restaurants.length > 0 && this.state.restaurants.map( restaurant => (
-          <div key={restaurant.restaurant.id}>
-            <NavLink to={{pathname:`/review/${restaurant.restaurant.id}`, state: restaurant.restaurant}} >{restaurant.restaurant.name}</NavLink>
-            <p>{restaurant.restaurant.location.address}</p><br />
-          </div>
+
+            <Card key={restaurant.restaurant.id}>
+              <NavLink to={{pathname:`/review/${restaurant.restaurant.id}`, state: restaurant.restaurant}} >
+                {restaurant.restaurant.featured_image ? <Image src={`${restaurant.restaurant.featured_image}`} /> : <Image src='https://www.sunset.com/wp-content/uploads/e3fa7d1e703dab48169dbe4f815a1745-1200x600-c-default.jpg'  />}
+                {restaurant.restaurant.name}
+                <p>{restaurant.restaurant.location.address}</p><br />
+              </NavLink>
+            </Card>
+
+
         ))}
+      </Card.Group>
       </div>
     );
   }
@@ -46,5 +61,3 @@ class SearchRestaurants extends Component {
 }
 
 export default SearchRestaurants;
-
-// onClick={() => this.props.history.push(`/reviews/${restaurant.restaurant.id}`)}
