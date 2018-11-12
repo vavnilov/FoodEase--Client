@@ -24,7 +24,7 @@ class Login extends Component{
     .then(res => res.json())
     .then(resp => {
       if (resp.error){
-        this.setState({error: true})
+        this.setState({username:'', password:'', error: true})
       }
       else{
         localStorage.setItem("jwt", resp.jwt);
@@ -44,27 +44,24 @@ class Login extends Component{
     this.login(this.state.username, this.state.password)
   }
   render(){
-    if (this.state.error){
-      alert("Invalid Login Information")
-      this.props.history.push('/');
-      return null
-    }else{
       return(
         <div style={{'padding-top': '5%', 'padding-left':'30%', 'padding-right':'30%'}}>
+          {this.state.error &&
+            <div style={{color:"red"}}>Invalid User Information. Please try again </div>}<br/>
           <Form onSubmit={this.handleSubmit}>
             <Form.Field>
               <label>Username</label>
-              <input placeholder='Username' name='username' onChange={this.handleChange} />
+              <input placeholder='Username' name='username' value={this.state.username} onChange={this.handleChange} />
             </Form.Field>
             <Form.Field>
               <label>Password</label>
-              <input placeholder='Password' name='password' onChange={this.handleChange} />
+              <input type="password" placeholder='Password' name='password' value={this.state.password}onChange={this.handleChange} />
             </Form.Field>
             <Button type='submit'>Submit</Button>
           </Form>
         </div>
     )
-    }
+
   }
 }
 

@@ -12,14 +12,14 @@ const Navbar = (props) => {
       <Menu.Item><NavLink to="/reviews">See Reviews</NavLink></Menu.Item>&nbsp;&nbsp;&nbsp;
       <Menu.Item><NavLink to="/follow">Find FoodEasers</NavLink></Menu.Item>&nbsp;&nbsp;&nbsp;
       <Menu.Menu position="right">
-        <Menu.Item>{localStorage.jwt ? <NavLink to="/" onClick={props.handleLogout}>Logout</NavLink> : <NavLink to="/login">Login</NavLink>}</Menu.Item>&nbsp;&nbsp;&nbsp;
-        {!localStorage.jwt && <Menu.Item><NavLink to="/signup">Sign Up</NavLink></Menu.Item>}
+        <Menu.Item>{props.currentUser ? <NavLink to="/" onClick={props.handleLogout}>Logout</NavLink> : <NavLink to="/login">Login</NavLink>}</Menu.Item>&nbsp;&nbsp;&nbsp;
+        {!props.currentUser && <Menu.Item><NavLink to="/signup">Sign Up</NavLink></Menu.Item>}
       </Menu.Menu>
     </Menu>)
 };
 
 const mapStateToProps = state => {
-  return { currentUser: state.currentUser, followed:state.usersFollowing}
+  return { currentUser: state.currentUser}
 }
 
 export default connect(mapStateToProps)(Navbar);

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Review from './Review'
-
+import moment from 'moment'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 class Reviews extends Component {
 
@@ -16,12 +17,18 @@ class Reviews extends Component {
   }
 
   render() {
-    const reviews = this.state.reviews.filter(review => this.props.currentUser.id === review.user_id || this.props.followed.includes(review.user_id)).map(review => <Review key={review.id} {...review}/>)
-    // debugger;
+    if (!this.props.currentUser) {
+      return <Redirect to='/login' />
+    }
+    const reviews = this.state.reviews
+      .filter(review => this.props.currentUser.id === review.user_id || this.props.followed.includes(review.user_id))
+      .sort((a,b) => moment(b.created_at).unix() - moment(a.created_at).unix())
+      .map(review => <Review key={review.id} {...review}/>)
     return (
-      <div>Here's all the reviews!
+      <h1>
+        { !!reviews.length ? "Here are all the reviews from your fellow FoodEasers" : "Nothing to show here. Try following some more FoodEase."}
         {reviews}
-      </div>
+      </h1>
     );
   }
 

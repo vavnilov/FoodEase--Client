@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-
+import {Form, Button, Input, Icon} from 'semantic-ui-react'
 import User from './User';
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 class Follow extends Component {
 
@@ -24,18 +26,24 @@ class Follow extends Component {
 
   listUsers = users => {
     const filteredUsers = users.filter(user => user.name.toLowerCase().includes(this.state.name.toLowerCase()) || user.username.toLowerCase().includes(this.state.name.toLowerCase()))
+    .filter(user => user.id !== this.props.currentUser.id)
     this.setState({filteredUsers})
   }
 
 
   render() {
+    if (!this.props.currentUser) {
+      return <Redirect to='/login' />
+    }
     const users = this.state.filteredUsers.map(user => <User key={user.id} {...user}/>)
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="Search User" onChange={this.handleChange} /><br />
-          <input type="submit" value="Search"/>
-        </form>
+        <Form onSubmit={this.handleSubmit} >
+          <Input size="huge" placeholder='Search for FoodEasers...' onChange={this.handleChange}></Input>
+          <Button size="huge" icon >
+            <Icon name='search' />
+          </Button>
+        </Form> <br />
         {users}
       </div>
     );
@@ -43,5 +51,9 @@ class Follow extends Component {
 
 }
 
+const mapStateToProps = state => {
+  return { currentUser: state.currentUser}
+}
 
-export default Follow;
+
+export default connect(mapStateToProps)(Follow);

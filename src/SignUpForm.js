@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form } from 'semantic-ui-react'
-
+import axios from 'axios'
 class SignUpForm extends Component {
   state = {
     name: "",
@@ -22,7 +22,7 @@ class SignUpForm extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(this.state)
-    }).then(this.props.history.push('/'))
+    }).then(this.props.history.push('/login'))
   }
 
   render() {

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Form, Input, Button, Icon, Card, Image } from 'semantic-ui-react'
 import _ from 'lodash'
+import { Redirect } from 'react-router-dom'
+import { connect} from 'react-redux';
 
 class SearchRestaurants extends Component {
 
@@ -32,6 +34,9 @@ class SearchRestaurants extends Component {
 
 
   render() {
+    if (!this.props.currentUser) {
+      return <Redirect to='/login' />
+    }
     return (
       <div>
         <Form onSubmit={this.fetchRestaurants} >
@@ -46,12 +51,10 @@ class SearchRestaurants extends Component {
             <Card key={restaurant.restaurant.id}>
               <NavLink to={{pathname:`/review/${restaurant.restaurant.id}`, state: restaurant.restaurant}} >
                 {restaurant.restaurant.featured_image ? <Image src={`${restaurant.restaurant.featured_image}`} /> : <Image src='https://www.sunset.com/wp-content/uploads/e3fa7d1e703dab48169dbe4f815a1745-1200x600-c-default.jpg'  />}
-                {restaurant.restaurant.name}
-                <p>{restaurant.restaurant.location.address}</p><br />
+                <h2>{restaurant.restaurant.name}</h2>
+                <h3>{restaurant.restaurant.location.address}</h3><br />
               </NavLink>
             </Card>
-
-
         ))}
       </Card.Group>
       </div>
@@ -60,4 +63,8 @@ class SearchRestaurants extends Component {
 
 }
 
-export default SearchRestaurants;
+const mapStateToProps = state => {
+  return { currentUser: state.currentUser}
+}
+
+export default connect(mapStateToProps)(SearchRestaurants);
