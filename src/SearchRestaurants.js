@@ -15,6 +15,7 @@ class SearchRestaurants extends Component {
   componentDidMount() {
     this.fetchRestaurants()
   }
+
   handleChange = event => {
     this.setState({
       isLoading: true,

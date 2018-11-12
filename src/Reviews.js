@@ -14,6 +14,7 @@ class Reviews extends Component {
     fetch('http://localhost:3000/reviews')
     .then(res => res.json())
     .then(res => this.setState({reviews: res}))
+
   }
 
   render() {

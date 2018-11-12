@@ -32,7 +32,7 @@ class Follow extends Component {
 
 
   render() {
-    if (!this.props.currentUser) {
+    if (!localStorage.jwt) {
       return <Redirect to='/login' />
     }
     const users = this.state.filteredUsers.map(user => <User key={user.id} {...user}/>)

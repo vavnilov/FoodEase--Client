@@ -36,8 +36,8 @@ const handleUnfollowClick = (unfollow, id) => {
 const User = ({id, name, username, followed, follow, unfollow}) => {
   return (
     <Segment style={{width:'30%'}}>
-      <p>{name}</p>
-      <p>{username}</p>
+      <p>Name: {name}</p>
+      <p>Username: {username}</p>
       {followed.includes(id) ?
         <Button
           basic color='red'

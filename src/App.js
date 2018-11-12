@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Navbar from './Navbar'
@@ -55,7 +55,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div >
+        <Fragment >
           <Navbar handleLogout={this.handleLogout}/>
           <Switch>
             <Route exact path="/" component={Welcome} />
@@ -66,7 +66,7 @@ class App extends Component {
             <Route exact path="/reviews" component={Reviews}/>} />
             <Route exact path="/follow" component={Follow}/>} />
           </Switch>
-        </div>
+        </Fragment>
       </Router>
     );
   }

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Button, Form } from 'semantic-ui-react'
-import axios from 'axios'
+import { Redirect } from 'react-router-dom'
+
 class SignUpForm extends Component {
   state = {
     name: "",
     username: "",
-    password: ""
+    password: "",
+    error: false,
+    error_messages: []
   }
 
   handleChange = event => {
@@ -22,13 +25,27 @@ class SignUpForm extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(this.state)
-    }).then(this.props.history.push('/login'))
+    })
+    // .then(this.props.history.push('/login'))
+    .then (resp => resp.json())
+    .then(resp => {
+      if (resp.errors){
+        this.setState({error: true, error_messages: resp.errors})
+      }
+      else{
+        this.props.history.push('/login')
+      }
+    })
   }
 
   render() {
+    if (this.props.currentUser) {
+      return <Redirect to='/' />
+    }
     return (
       <div style={{'padding-top': '5%', 'padding-left':'30%', 'padding-right':'30%'}}>
-        <h2 style={{'margin-bottom':60}}>Please submit the following information:</h2>
+        {this.state.error && this.state.error_messages.map(error => <li style={{color:"red"}}>{error}</li>)}
+        <h3 style={{'margin-bottom':60}}>Please submit the following information:</h3>
         <Form size='big' onSubmit={this.handleSubmit}>
            <Form.Field>
              <label>Name</label>

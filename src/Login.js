@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect, NavLink } from 'react-router-dom'
 import { Button, Form } from 'semantic-ui-react'
 
 class Login extends Component{
@@ -44,10 +44,14 @@ class Login extends Component{
     this.login(this.state.username, this.state.password)
   }
   render(){
+    if (this.props.currentUser) {
+      return <Redirect to='/' />
+    }
       return(
         <div style={{'padding-top': '5%', 'padding-left':'30%', 'padding-right':'30%'}}>
           {this.state.error &&
-            <div style={{color:"red"}}>Invalid User Information. Please try again </div>}<br/>
+            <div style={{color:"red"}}>Invalid User Information. Please try again </div>
+          }<br/>
           <Form onSubmit={this.handleSubmit}>
             <Form.Field>
               <label>Username</label>
@@ -59,6 +63,7 @@ class Login extends Component{
             </Form.Field>
             <Button type='submit'>Submit</Button>
           </Form>
+          <p>Don't have an account? <NavLink to='/signup'>Sign up</NavLink></p>
         </div>
     )
 
