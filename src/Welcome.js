@@ -3,10 +3,10 @@ import './Welcome.css';
 
 const Welcome = () => (
   <div id="welcome">
-    <p>Welcome to FoodEase - a place where you can see NYC restaurant reviews only from people you trust.</p>
+    <p style={{"font-size": 40}}>Welcome to FoodEase - a place where you can see NYC restaurant reviews only from people you trust.</p>
     <br />
 
-    <p>Prepare to try out new restaurants more confidently and never be disappointed again!</p>
+    <p style={{"font-size": 35}}>Prepare to try out new restaurants more confidently and never be disappointed again!</p>
   </div>
 );
 

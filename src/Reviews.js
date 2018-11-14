@@ -18,7 +18,7 @@ class Reviews extends Component {
   }
 
   render() {
-    if (!this.props.currentUser) {
+    if (!localStorage.jwt) {
       return <Redirect to='/login' />
     }
     const reviews = this.state.reviews
@@ -27,7 +27,7 @@ class Reviews extends Component {
       .map(review => <Review key={review.id} {...review}/>)
     return (
       <h1>
-        { !!reviews.length ? "Here are all the reviews from your fellow FoodEasers" : "Nothing to show here. Try following some more FoodEase."}
+        { !!reviews.length ? "Here are all the reviews from your fellow FoodEasers" : "Nothing to show here. Try following some more FoodEasers."}
         {reviews}
       </h1>
     );

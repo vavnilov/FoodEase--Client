@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 
 class SignUpForm extends Component {
   state = {
@@ -28,12 +28,16 @@ class SignUpForm extends Component {
     })
     // .then(this.props.history.push('/login'))
     .then (resp => resp.json())
+    // .then(console.log)
     .then(resp => {
       if (resp.errors){
         this.setState({error: true, error_messages: resp.errors})
       }
       else{
-        this.props.history.push('/login')
+        // this.props.history.push('/login')
+        localStorage.setItem("jwt", resp.jwt);
+        this.props.setUser(resp.jwt)
+        this.props.history.push('/')
       }
     })
   }
@@ -67,4 +71,4 @@ class SignUpForm extends Component {
 
 }
 
-export default SignUpForm;
+export default withRouter(SignUpForm);

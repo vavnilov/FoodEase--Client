@@ -8,7 +8,7 @@ class Follow extends Component {
 
   state = {
     name: "",
-    filteredUsers: []
+    users: []
   }
 
   handleChange = event => {
@@ -16,34 +16,24 @@ class Follow extends Component {
       name: event.target.value
     })
   }
-
-  handleSubmit = event => {
-    event.preventDefault()
+  componentDidMount() {
     fetch('http://localhost:3000/users')
     .then(res => res.json())
-    .then(res => this.listUsers(res))
+    .then(res => this.setState({users: res}))
   }
-
-  listUsers = users => {
-    const filteredUsers = users.filter(user => user.name.toLowerCase().includes(this.state.name.toLowerCase()) || user.username.toLowerCase().includes(this.state.name.toLowerCase()))
-    .filter(user => user.id !== this.props.currentUser.id)
-    this.setState({filteredUsers})
-  }
-
 
   render() {
     if (!localStorage.jwt) {
       return <Redirect to='/login' />
     }
-    const users = this.state.filteredUsers.map(user => <User key={user.id} {...user}/>)
+    const users = this.state.users
+      .filter(user => user.name.toLowerCase().includes(this.state.name.toLowerCase()) || user.username.toLowerCase().includes(this.state.name.toLowerCase()))
+      .filter(user => user.id !== this.props.currentUser.id)
+      .map(user => <User key={user.id} {...user}/>)
     return (
       <div>
-        <Form onSubmit={this.handleSubmit} >
-          <Input size="huge" placeholder='Search for FoodEasers...' onChange={this.handleChange}></Input>
-          <Button size="huge" icon >
-            <Icon name='search' />
-          </Button>
-        </Form> <br />
+        <Input icon="search" size="huge" placeholder='Search for FoodEasers...' onChange={this.handleChange}></Input>
+        <br />
         {users}
       </div>
     );

@@ -60,7 +60,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Welcome} />
             <Route exact path="/login" render={(props) =><Login setUser={this.setUser}/>} />
-            <Route exact path="/signup" component={SignUpForm} />
+            <Route exact path="/signup" render={(props) =><SignUpForm setUser={this.setUser} />}/> 
             <Route exact path="/search" component={SearchRestaurants} />
             <Route exact path="/review/:id" component={LeaveReview}/>} />
             <Route exact path="/reviews" component={Reviews}/>} />
