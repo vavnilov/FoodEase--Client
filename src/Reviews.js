@@ -11,7 +11,7 @@ class Reviews extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/reviews')
+    fetch('https://foodease101-backend.herokuapp.com/reviews')
     .then(res => res.json())
     .then(res => this.setState({reviews: res}))
 

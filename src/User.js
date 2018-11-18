@@ -5,7 +5,7 @@ import { Segment, Button, Icon } from 'semantic-ui-react'
 
 const handleFollowClick = (follow, id) => {
   follow(id)
-  fetch("http://localhost:3000/relationships",{
+  fetch("https://foodease101-backend.herokuapp.com/relationships",{
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,7 +20,7 @@ const handleFollowClick = (follow, id) => {
 
 const handleUnfollowClick = (unfollow, id) => {
   unfollow(id)
-  fetch("http://localhost:3000/unfollow",{
+  fetch("https://foodease101-backend.herokuapp.com/unfollow",{
     method: "POST",
     headers: {
       "Content-Type": "application/json",

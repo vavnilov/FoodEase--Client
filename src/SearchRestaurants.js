@@ -19,7 +19,6 @@ class SearchRestaurants extends Component {
 
   handleChange = event => {
     this.setState({
-      isLoading: true,
       name: event.target.value
     })
   }

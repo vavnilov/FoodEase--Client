@@ -17,7 +17,7 @@ class LeaveReview extends Component {
   }
 
   handleClick = () => {
-    fetch('http://localhost:3000/reviews', {
+    fetch('https://foodease101-backend.herokuapp.com/reviews', {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json'

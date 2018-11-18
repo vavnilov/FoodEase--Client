@@ -10,7 +10,7 @@ class Login extends Component{
   }
 
   login = (username, password) => {
-    fetch("http://localhost:3000/auth",{
+    fetch("https://foodease101-backend.herokuapp.com/auth",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",

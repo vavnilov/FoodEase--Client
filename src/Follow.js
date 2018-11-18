@@ -17,7 +17,7 @@ class Follow extends Component {
     })
   }
   componentDidMount() {
-    fetch('http://localhost:3000/users')
+    fetch('https://foodease101-backend.herokuapp.com/users')
     .then(res => res.json())
     .then(res => this.setState({users: res}))
   }
